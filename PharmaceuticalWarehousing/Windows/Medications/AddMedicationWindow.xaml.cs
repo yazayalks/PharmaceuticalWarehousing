@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using PharmaceuticalWarehousing.Models;
@@ -28,6 +29,40 @@ public partial class AddMedicationWindow : Window
 
     private void SaveButton(object sender, RoutedEventArgs e)
     {
+        var regexRegistrationNumber = new Regex("^[0-9]+$");
+        // if (string.IsNullOrWhiteSpace(Medication.RegistrationNumber))
+        // {
+        //     MessageBox.Show("Введите регистрационный номер");
+        //     return;
+        // }
+        // if (!regexRegistrationNumber.IsMatch(Medication.RegistrationNumber))
+        // { 
+        //     MessageBox.Show("Регистрационный номер должен содержать только цифры");
+        //     return;
+        // }
+        
+        if ((Medication.DateOfManufacture) == null)
+        {
+            MessageBox.Show("Введите дату производства");
+            return;
+        }
+        if ((Medication.BestBeforeDate) == null)
+        {
+            MessageBox.Show("Введите срок годности");
+            return;
+        }
+        if ((Medication.Medicine) == null)
+        {
+            MessageBox.Show("Укажите лекарство ");
+            return;
+        }
+        if ((Medication.Manufacturer) == null)
+        {
+            MessageBox.Show("Укажите проиводителя ");
+            return;
+        }
+        
+
         try
         {
             dbContext.Medications.Add(Medication);

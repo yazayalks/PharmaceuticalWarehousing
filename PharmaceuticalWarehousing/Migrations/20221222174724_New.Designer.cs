@@ -12,8 +12,8 @@ using PharmaceuticalWarehousing;
 namespace PharmaceuticalWarehousing.Migrations
 {
     [DbContext(typeof(PharmaceuticalWarehousingDbContext))]
-    [Migration("20221221160627_newTable10")]
-    partial class newTable10
+    [Migration("20221222174724_New")]
+    partial class New
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,39 @@ namespace PharmaceuticalWarehousing.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("PharmaceuticalWarehousing.Models.AccessRight", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Edit")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Form")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Write")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AccessRight");
+                });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Bank", b =>
                 {
@@ -39,7 +72,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bank");
+                    b.ToTable("Banks");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Category", b =>
@@ -56,25 +89,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Check", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("InvoiceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("Check");
+                    b.ToTable("Categorys");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Counterparty", b =>
@@ -93,10 +108,11 @@ namespace PharmaceuticalWarehousing.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ITN")
-                        .HasColumnType("integer");
+                    b.Property<string>("ITN")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int?>("PaymentAccountId")
+                    b.Property<int>("PaymentAccountId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Phone")
@@ -115,7 +131,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasIndex("PaymentAccountId");
 
-                    b.ToTable("Counterparty");
+                    b.ToTable("Counterparties");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Invoice", b =>
@@ -129,13 +145,13 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Property<double>("AmountPayable")
                         .HasColumnType("double precision");
 
-                    b.Property<int?>("BuyerId")
+                    b.Property<int>("BuyerId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfDischarge")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("SalesmanId")
+                    b.Property<int>("SalesmanId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -144,7 +160,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasIndex("SalesmanId");
 
-                    b.ToTable("Invoice");
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Manufacturer", b =>
@@ -161,7 +177,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Manufacturer");
+                    b.ToTable("Manufacturers");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Medication", b =>
@@ -173,37 +189,37 @@ namespace PharmaceuticalWarehousing.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BestBeforeDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("CheckId")
-                        .HasColumnType("integer");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("DateOfManufacture")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("ManufacturerId")
+                    b.Property<int?>("InvoiceId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("MedicineId")
+                    b.Property<int>("ManufacturerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MedicineId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RegistrationNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("StatementId")
+                    b.Property<int?>("WaybillId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CheckId");
+                    b.HasIndex("InvoiceId");
 
                     b.HasIndex("ManufacturerId");
 
                     b.HasIndex("MedicineId");
 
-                    b.HasIndex("StatementId");
+                    b.HasIndex("WaybillId");
 
-                    b.ToTable("Medication");
+                    b.ToTable("Medications");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Medicine", b =>
@@ -214,7 +230,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -225,7 +241,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Medicine");
+                    b.ToTable("Medicines");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Package", b =>
@@ -236,10 +252,10 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("MedicationsId")
+                    b.Property<int>("MedicationsId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("PackageTypeId")
+                    b.Property<int>("PackageTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -248,7 +264,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasIndex("PackageTypeId");
 
-                    b.ToTable("Package");
+                    b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.PackageType", b =>
@@ -265,7 +281,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PackageType");
+                    b.ToTable("PackageTypes");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.PaymentAccount", b =>
@@ -279,14 +295,14 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("BankId")
+                    b.Property<int>("BankId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BankId");
 
-                    b.ToTable("PaymentAccount");
+                    b.ToTable("PaymentAccounts");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Salesman", b =>
@@ -311,10 +327,10 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Salesman");
+                    b.ToTable("Salesmans");
                 });
 
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Statement", b =>
+            modelBuilder.Entity("PharmaceuticalWarehousing.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,14 +338,20 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("WaybillId")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WaybillId");
-
-                    b.ToTable("Statement");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Waybill", b =>
@@ -343,33 +365,37 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProviderId")
+                    b.Property<int>("ProviderId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("ReceiptDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Waybill");
+                    b.ToTable("Waybills");
                 });
 
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Check", b =>
+            modelBuilder.Entity("PharmaceuticalWarehousing.Models.AccessRight", b =>
                 {
-                    b.HasOne("PharmaceuticalWarehousing.Models.Invoice", "Invoice")
-                        .WithMany("Checks")
-                        .HasForeignKey("InvoiceId");
+                    b.HasOne("PharmaceuticalWarehousing.Models.User", "User")
+                        .WithMany("AccessRights")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Invoice");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Counterparty", b =>
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.PaymentAccount", "PaymentAccount")
                         .WithMany("Counterparties")
-                        .HasForeignKey("PaymentAccountId");
+                        .HasForeignKey("PaymentAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PaymentAccount");
                 });
@@ -378,11 +404,15 @@ namespace PharmaceuticalWarehousing.Migrations
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Counterparty", "Buyer")
                         .WithMany("Invoices")
-                        .HasForeignKey("BuyerId");
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Salesman", "Salesman")
                         .WithMany("Invoices")
-                        .HasForeignKey("SalesmanId");
+                        .HasForeignKey("SalesmanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Buyer");
 
@@ -391,36 +421,38 @@ namespace PharmaceuticalWarehousing.Migrations
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Medication", b =>
                 {
-                    b.HasOne("PharmaceuticalWarehousing.Models.Check", "Check")
+                    b.HasOne("PharmaceuticalWarehousing.Models.Invoice", null)
                         .WithMany("Medications")
-                        .HasForeignKey("CheckId");
+                        .HasForeignKey("InvoiceId");
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Manufacturer", "Manufacturer")
                         .WithMany("Medications")
-                        .HasForeignKey("ManufacturerId");
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Medicine", "Medicine")
                         .WithMany("Medications")
-                        .HasForeignKey("MedicineId");
+                        .HasForeignKey("MedicineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PharmaceuticalWarehousing.Models.Statement", "Statement")
+                    b.HasOne("PharmaceuticalWarehousing.Models.Waybill", null)
                         .WithMany("Medications")
-                        .HasForeignKey("StatementId");
-
-                    b.Navigation("Check");
+                        .HasForeignKey("WaybillId");
 
                     b.Navigation("Manufacturer");
 
                     b.Navigation("Medicine");
-
-                    b.Navigation("Statement");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Medicine", b =>
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Category", "Category")
                         .WithMany("Categories")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });
@@ -429,11 +461,15 @@ namespace PharmaceuticalWarehousing.Migrations
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Medication", "Medications")
                         .WithMany("Packaging")
-                        .HasForeignKey("MedicationsId");
+                        .HasForeignKey("MedicationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PharmaceuticalWarehousing.Models.PackageType", "PackageType")
                         .WithMany("packaging")
-                        .HasForeignKey("PackageTypeId");
+                        .HasForeignKey("PackageTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Medications");
 
@@ -444,25 +480,20 @@ namespace PharmaceuticalWarehousing.Migrations
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Bank", "Bank")
                         .WithMany("PaymentAccounts")
-                        .HasForeignKey("BankId");
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Bank");
-                });
-
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Statement", b =>
-                {
-                    b.HasOne("PharmaceuticalWarehousing.Models.Waybill", "Waybill")
-                        .WithMany("Statements")
-                        .HasForeignKey("WaybillId");
-
-                    b.Navigation("Waybill");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Waybill", b =>
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Counterparty", "Provider")
                         .WithMany("Waybills")
-                        .HasForeignKey("ProviderId");
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Provider");
                 });
@@ -477,11 +508,6 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Check", b =>
-                {
-                    b.Navigation("Medications");
-                });
-
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Counterparty", b =>
                 {
                     b.Navigation("Invoices");
@@ -491,7 +517,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Invoice", b =>
                 {
-                    b.Navigation("Checks");
+                    b.Navigation("Medications");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Manufacturer", b =>
@@ -524,14 +550,14 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("PharmaceuticalWarehousing.Models.Statement", b =>
+            modelBuilder.Entity("PharmaceuticalWarehousing.Models.User", b =>
                 {
-                    b.Navigation("Medications");
+                    b.Navigation("AccessRights");
                 });
 
             modelBuilder.Entity("PharmaceuticalWarehousing.Models.Waybill", b =>
                 {
-                    b.Navigation("Statements");
+                    b.Navigation("Medications");
                 });
 #pragma warning restore 612, 618
         }

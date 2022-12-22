@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
-using PharmaceuticalWarehousing.Migrations;
+
 using PharmaceuticalWarehousing.Models;
+using PharmaceuticalWarehousing.Utilities;
 using PharmaceuticalWarehousing.Windows.Counterpartys;
 using PharmaceuticalWarehousing.Windows.Invoices;
 using PharmaceuticalWarehousing.Windows.Medications;
@@ -37,6 +39,34 @@ public partial class MainWindow : Window
         this.user = user;
         DataContext = this;
 
+        if (user.UserType != UserType.admin)
+        {
+            AdminTabItem.Visibility = Visibility.Hidden;
+        }
+
+        var medicationAccessRight = user.AccessRights.Single(x => x.Form == FormType.MedicationForm);
+        AccessRightForm(medicationAccessRight, MedicationTabItem, MedicationGridItem, addMedicationButton, editMedicationButton, deleteMedicationButton); 
+        var wybillAccessRight = user.AccessRights.Single(x => x.Form == FormType.WaybillForm);
+        AccessRightForm(wybillAccessRight, WaybillTabItem, WaybillGridItem, addWaybillButton, editWaybillButton, deleteWaybillButton);
+        var counterpartyAccessRight = user.AccessRights.Single(x => x.Form == FormType.CounterpartyForm);
+        AccessRightForm(counterpartyAccessRight, CounterpartyTabItem, CounterpartyGridItem, addCounterpartyButton, editCounterpartyButton, deleteCounterpartyButton);
+        var invoiceAccessRight = user.AccessRights.Single(x => x.Form == FormType.InvoiceForm);
+        AccessRightForm(invoiceAccessRight, InvoiceTabItem, InvoiceGridItem, addInvoiceButton, editInvoiceButton, deleteInvoiceButton);
+        
+        var paymentAccountAccessRight = user.AccessRights.Single(x => x.Form == FormType.PaymentAccountForm);
+        AccessRightGrid(paymentAccountAccessRight, PaymentAccountTabItem, PaymentAccountGrid);
+        var bankAccountAccessRight = user.AccessRights.Single(x => x.Form == FormType.BankForm);
+        AccessRightGrid(bankAccountAccessRight, BankTabItem, BankGrid);
+        var packageTypeAccessRight = user.AccessRights.Single(x => x.Form == FormType.PackageTypeForm);
+        AccessRightGrid(packageTypeAccessRight, PackageTypeTabItem, PackageTypeGrid);
+        var manufacturerAccessRight = user.AccessRights.Single(x => x.Form == FormType.ManufacturerForm);
+        AccessRightGrid(manufacturerAccessRight, ManufacturerTabItem, ManufacturerGrid);
+        var categoryAccessRight = user.AccessRights.Single(x => x.Form == FormType.CategoryForm);
+        AccessRightGrid(categoryAccessRight, CategoryTabItem, CategoryGrid);
+        var medicineAccessRight = user.AccessRights.Single(x => x.Form == FormType.MedicineForm);
+        AccessRightGrid(medicineAccessRight, MedicineTabItem, MedicineGrid);
+        var salesmanAccessRight = user.AccessRights.Single(x => x.Form == FormType.SalesmanForm);
+        AccessRightGrid(salesmanAccessRight, SalesmanTabItem, SalesmanGrid);
 
         RefreshUserGrid();
         RefreshCategoryGrid();
@@ -53,6 +83,28 @@ public partial class MainWindow : Window
 
 
         this.Closing += MainWindow_Closing;
+    }
+
+    private void AccessRightForm(AccessRight accessRight, TabItem tabItem, Grid grid, Button addButton, Button editButton, Button deleteButton)
+    {
+        if (!accessRight.Read) {
+            tabItem.Visibility = Visibility.Hidden;
+            grid.Visibility = Visibility.Hidden;
+        }
+        addButton.IsEnabled = accessRight.Write;
+        editButton.IsEnabled = accessRight.Edit;
+        deleteButton.IsEnabled = accessRight.Delete;
+    }
+
+    private void AccessRightGrid(AccessRight accessRight, TabItem tabItem, DataGrid grid)
+    {
+        if (!accessRight.Read) {
+            tabItem.Visibility = Visibility.Hidden;
+            grid.Visibility = Visibility.Hidden;
+        }
+        grid.IsReadOnly = !accessRight.Edit;
+        grid.CanUserAddRows = accessRight.Write;
+        grid.CanUserDeleteRows = accessRight.Delete;
     }
 
     private void RefreshWaybillGrid()
@@ -154,7 +206,7 @@ public partial class MainWindow : Window
                         || x.Manufacturer.Name.ToLower().Contains(search)
                         || x.RegistrationNumber.ToString().Contains(search))
             .ToList();
-
+    
         MedicationGrid.Items.Refresh();
     }
 
@@ -326,6 +378,66 @@ public partial class MainWindow : Window
 
     private void EditUserButton_Click(object sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        if (UserGrid.SelectedItems.Count > 0)
+        {
+            var editAccessRightWindow = new EditAccessRightWindow(dbContext, ((User)UserGrid.SelectedItems[0]!));
+            editAccessRightWindow.ShowDialog();
+            RefreshWaybillGrid();
+        }
+    }
+    private void RecoverPasswordButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var oldPassword = OldPasswordTexBox.Password;
+        var newPassword = NewPasswordTexBox.Password;
+        var confirmPassword = ConfirmPasswordTexBox.Password;
+        
+        if (oldPassword == String.Empty)
+        {
+            MessageBox.Show("Старый может быть пустым");
+            return;
+        }
+        if (newPassword == String.Empty)
+        {
+            MessageBox.Show("Новый пароль не может быть пустым");
+            return;
+        }
+        if (confirmPassword == String.Empty)
+        {
+            MessageBox.Show("Подтвержение пароля не может быть пустым");
+            return;
+        }
+        if (newPassword.Length < 5)
+        {
+            MessageBox.Show("Новый пароль не может быть меньше 5 символов");
+            return;
+        }
+        if (confirmPassword.Length < 5)
+        {
+            MessageBox.Show("Подтвержение пароля не может быть меньше 5 символов");
+            return;
+        }
+        
+        if (user.Password == PasswordEncrypter.GetHash(oldPassword))
+        {
+            if(newPassword == confirmPassword)
+            {
+                var PasswordHash = PasswordEncrypter.GetHash(newPassword);
+                user.Password = PasswordHash;
+                dbContext.SaveChanges();
+                OldPasswordTexBox.Password = string.Empty;
+                NewPasswordTexBox.Password = string.Empty;
+                ConfirmPasswordTexBox.Password = string.Empty;
+                MessageBox.Show("Пароль успешно изменён!");
+
+            } else
+            {
+                MessageBox.Show("Новые пароли не совпадают");
+            }
+
+        } else
+        {
+            MessageBox.Show("Старый пароль неправильный");
+        }
+
     }
 }

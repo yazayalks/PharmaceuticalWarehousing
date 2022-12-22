@@ -50,9 +50,7 @@
 
             <Button Content="Сохранить" Click="SaveButton" />
         </StackPanel>
-        <TabControl>
-            <TabItem>
-                <StackPanel>
+        <StackPanel>
                     <Label Content="Упаковки" HorizontalAlignment="Left" VerticalAlignment="Center" Width="160" />
                     <DataGrid x:Name="PackageGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -60,13 +58,8 @@
                                                     SelectedItemBinding="{Binding PackageType}"
                                                     DisplayMemberPath="Type"
                                                     SelectedValuePath="Type" />
-
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
-
-            </TabItem>
-
-        </TabControl>
     </StackPanel>
 </Window>

@@ -49,6 +49,36 @@ namespace PharmaceuticalWarehousing.Windows
         private void RegistrButton_Click(object sender, RoutedEventArgs e)
         {
             var Email = RegisterEmailTextBox.Text;
+            if (RegisterEmailTextBox.Text == String.Empty)
+            {
+                MessageBox.Show("Емаил не может быть пустым");
+                return;
+            }
+            if (RegisterPasswordTextBox.Password == String.Empty)
+            {
+                MessageBox.Show("Пароль не может быть пустым");
+                return;
+            }
+            if (RegisterPasswordConfirmTextBox.Password == String.Empty)
+            {
+                MessageBox.Show("Подтвержение пароля не может быть пустым");
+                return;
+            }
+            if (RegisterEmailTextBox.Text.Length < 3)
+            {
+                MessageBox.Show("Емаил не может быть меньше 3 символов");
+                return;
+            }
+            if (RegisterPasswordTextBox.Password.Length < 5)
+            {
+                MessageBox.Show("Пароль не может быть меньше 5 символов");
+                return;
+            }
+            if (RegisterPasswordConfirmTextBox.Password.Length < 5)
+            {
+                MessageBox.Show("Подтвержение пароля не может быть меньше 5 символов");
+                return;
+            }
 
             if (!dbContext.Users.Any(x => x.Email == Email))
             {

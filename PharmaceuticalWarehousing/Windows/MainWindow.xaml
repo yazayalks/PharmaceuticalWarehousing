@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl Margin="10">
-            <TabItem Header="Препараты">
-                <Grid Margin="10">
+            <TabItem x:Name ="MedicationTabItem" Header="Препараты">
+                <Grid x:Name ="MedicationGridItem" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.90*"></RowDefinition>
                         <RowDefinition Height="0.10*"></RowDefinition>
@@ -29,9 +29,9 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Content="Добавить" Click="AddMedicationButtonClick" Width="100" Height="25" />
-                        <Button Content="Редактировать" Click="EditMedicationButtonClick" Width="100" Height="25" />
-                        <Button Content="Удалить" Click="DeleteMedicationButtonClick" Width="100" Height="25" />
+                        <Button x:Name="addMedicationButton" Content="Добавить" Click="AddMedicationButtonClick" Width="100" Height="25" />
+                        <Button x:Name="editMedicationButton" Content="Редактировать" Click="EditMedicationButtonClick" Width="100" Height="25" />
+                        <Button x:Name="deleteMedicationButton" Content="Удалить" Click="DeleteMedicationButtonClick" Width="100" Height="25" />
                         <Label Content="Поиск" VerticalAlignment="Center" Width="50" />
                         <TextBox x:Name="searchTextBox" HorizontalAlignment="Left" TextWrapping="Wrap"
                                  VerticalAlignment="Center" Width="120" />
@@ -42,7 +42,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Категории">
+            <TabItem x:Name="CategoryTabItem" Header="Категории">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="CategoryGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -54,7 +54,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Лекарства">
+            <TabItem x:Name="MedicineTabItem" Header="Лекарства">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="MedicineGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -70,7 +70,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Типы упаковок">
+            <TabItem x:Name="PackageTypeTabItem" Header="Типы упаковок">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="PackageTypeGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -81,7 +81,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Банки">
+            <TabItem x:Name="BankTabItem" Header="Банки">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="BankGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -92,7 +92,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Продавцы">
+            <TabItem x:Name="SalesmanTabItem" Header="Продавцы">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="SalesmanGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -105,7 +105,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Расчётные счита">
+            <TabItem x:Name ="PaymentAccountTabItem"  Header="Расчётные счита">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="PaymentAccountGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -121,7 +121,7 @@
                 </StackPanel>
             </TabItem>
             
-            <TabItem Header="Производители">
+            <TabItem x:Name="ManufacturerTabItem" Header="Производители">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="ManufacturerGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -132,8 +132,8 @@
                 </StackPanel>
             </TabItem>
             
-            <TabItem Header="Контрагенты">
-                <Grid Margin="10">
+            <TabItem x:Name ="CounterpartyTabItem" Header="Контрагенты">
+                <Grid x:Name ="CounterpartyGridItem" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.90*"></RowDefinition>
                         <RowDefinition Height="0.10*"></RowDefinition>
@@ -150,15 +150,15 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Content="Добавить" Click="AddCounterpartyButtonClick" Width="100" Height="25" />
-                        <Button Content="Редактировать" Click="EditCounterpartyButtonClick" Width="100" Height="25" />
-                        <Button Content="Удалить" Click="DeleteCounterpartyButtonClick" Width="100" Height="25" />
+                        <Button x:Name="addCounterpartyButton" Content="Добавить" Click="AddCounterpartyButtonClick" Width="100" Height="25" />
+                        <Button x:Name="editCounterpartyButton" Content="Редактировать" Click="EditCounterpartyButtonClick" Width="100" Height="25" />
+                        <Button x:Name="deleteCounterpartyButton" Content="Удалить" Click="DeleteCounterpartyButtonClick" Width="100" Height="25" />
                     </StackPanel>
                 </Grid>
             </TabItem>
             
-            <TabItem Header="Счета">
-                <Grid Margin="10">
+            <TabItem x:Name ="InvoiceTabItem" Header="Счета">
+                <Grid x:Name ="InvoiceGridItem" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.90*"></RowDefinition>
                         <RowDefinition Height="0.10*"></RowDefinition>
@@ -173,15 +173,15 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Content="Добавить" Click="AddInvoiceButtonClick" Width="100" Height="25" />
-                        <Button Content="Редактировать" Click="EditInvoiceButtonClick" Width="100" Height="25" />
-                        <Button Content="Удалить" Click="DeleteInvoiceButtonClick" Width="100" Height="25" />
+                        <Button x:Name="addInvoiceButton" Content="Добавить" Click="AddInvoiceButtonClick" Width="100" Height="25" />
+                        <Button x:Name="editInvoiceButton"  Content="Редактировать" Click="EditInvoiceButtonClick" Width="100" Height="25" />
+                        <Button x:Name="deleteInvoiceButton"  Content="Удалить" Click="DeleteInvoiceButtonClick" Width="100" Height="25" />
                     </StackPanel>
                 </Grid>
             </TabItem>
             
-            <TabItem Header="Накладные">
-                <Grid Margin="10">
+            <TabItem x:Name ="WaybillTabItem"  Header="Накладные">
+                <Grid x:Name ="WaybillGridItem" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.90*"></RowDefinition>
                         <RowDefinition Height="0.10*"></RowDefinition>
@@ -194,20 +194,70 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Content="Добавить" Click="AddWaybillButtonClick" Width="100" Height="25" />
-                        <Button Content="Редактировать" Click="EditWaybillButtonClick" Width="100" Height="25" />
-                        <Button Content="Удалить" Click="DeleteWaybillButtonClick" Width="100" Height="25" />
+                        <Button x:Name="addWaybillButton" Content="Добавить" Click="AddWaybillButtonClick" Width="100" Height="25" />
+                        <Button x:Name="editWaybillButton" Content="Редактировать" Click="EditWaybillButtonClick" Width="100" Height="25" />
+                        <Button x:Name="deleteWaybillButton" Content="Удалить" Click="DeleteWaybillButtonClick" Width="100" Height="25" />
                     </StackPanel>
                 </Grid>
             </TabItem>
         
-            <TabItem Header="Панель администратора">
+             <TabItem x:Name="RecoverPasswordTabItem" Header="Изменить пароль">
+                    <Grid x:Name="RecoverPasswordGridItem">
+
+
+                        <StackPanel Margin="0,5,0,0" Orientation="Vertical">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Label Content="Изменение пароля пользователя" Width="227" FontWeight="ExtraBold"/>
+                                <TextBlock>
+                          Для изменения текущего пароля введите старый пароль, новый пароль и повторите новый пароль.
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0" HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Старый пароль"  VerticalAlignment="Center" Width="160"/>
+                                    <PasswordBox x:Name="OldPasswordTexBox" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="140" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Новый паролль"  VerticalAlignment="Center" Width="160"/>
+                                    <PasswordBox x:Name="NewPasswordTexBox" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="140" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Повтор нового пароля"  VerticalAlignment="Center" Width="160"/>
+                                    <PasswordBox x:Name="ConfirmPasswordTexBox"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="140" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,25,0,0" Width="Auto" Height="50" VerticalAlignment="Top">
+                                <Button x:Name="recoverPasswordButton" Content="Изменить пароль" Click="RecoverPasswordButton_OnClick" Width="106" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            
+            <TabItem Header="Справка">
+                <Grid Height="400">
+                    <StackPanel>
+                        <Label Content="Как работает программа:" Width="168" FontWeight="ExtraBold"/>
+                        <TextBlock>
+                            Пользователь, при разрешённых правах доступа администратором, может добавлять, редактировать, удалять необходимые данные;<LineBreak/>
+                            Есть права доступа;<LineBreak/>
+                            Пользователь имеет возможность поиска по таблице Препаратов, а также может экспортироовать её в эксель или ворд файл;<LineBreak/>
+                            У пользователя есть возможность для восстановления пароля;<LineBreak/>
+                            ...
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
+            <TabItem x:Name ="AdminTabItem"  Header="Панель администратора">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.90*"></RowDefinition>
                     <RowDefinition Height="0.10*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" x:Name="UserGrid" ItemsSource="{Binding Users}" AutoGenerateColumns="False">
+                <DataGrid CanUserAddRows="False" Grid.Row="0" x:Name="UserGrid" ItemsSource="{Binding Users}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn IsReadOnly="True" Binding="{Binding Id}" Header="Индефиктор" Width="100"/>
                         <DataGridTextColumn Binding="{Binding Email}" Header="Емаил" Width="100"/>
@@ -219,7 +269,7 @@
                 </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Button x:Name="saveUserButton" Content="Сохранить" Click="SaveButtonClick" Width="106" />
-                    <Button x:Name="editUserButton" Content="Редактировать" Click="EditUserButton_Click" Width="106" />
+                    <Button x:Name="editUserButton" Content="Редактировать права доступа" Click="EditUserButton_Click" Width="170" />
                 </StackPanel>
             </Grid>
         </TabItem>

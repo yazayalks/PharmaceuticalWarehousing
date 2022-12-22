@@ -105,8 +105,9 @@ namespace PharmaceuticalWarehousing.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ITN")
-                        .HasColumnType("integer");
+                    b.Property<string>("ITN")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("PaymentAccountId")
                         .HasColumnType("integer");

@@ -2,5 +2,15 @@
 
 public enum FormType
 {
-    MainWindow
+    MedicationForm,
+    CategoryForm,
+    MedicineForm,
+    PackageTypeForm,
+    BankForm,
+    SalesmanForm,
+    CounterpartyForm,
+    WaybillForm,
+    ManufacturerForm,
+    InvoiceForm,
+    PaymentAccountForm,
 }
