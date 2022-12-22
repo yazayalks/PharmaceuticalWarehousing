@@ -8,6 +8,7 @@ using PharmaceuticalWarehousing.Models;
 using PharmaceuticalWarehousing.Windows.Counterpartys;
 using PharmaceuticalWarehousing.Windows.Invoices;
 using PharmaceuticalWarehousing.Windows.Medications;
+using PharmaceuticalWarehousing.Windows.Waybills;
 
 namespace PharmaceuticalWarehousing.Windows;
 
@@ -42,11 +43,18 @@ public partial class MainWindow : Window
         RefreshManufacturerGrid();
         RefreshCounterpartyGrid();
         RefreshInvoiceGrid();
+        RefreshWaybillGrid();
 
 
         this.Closing += MainWindow_Closing;
     }
 
+    private void RefreshWaybillGrid()
+    {
+        WaybillGrid.ItemsSource = dbContext.Waybills.Include(x => x.Medications).ToList();
+        WaybillGrid.Items.Refresh();
+    }
+    
     private void RefreshInvoiceGrid()
     {
         InvoiceGrid.ItemsSource = dbContext.Invoices.Include(x => x.Medications).ToList();
@@ -176,7 +184,9 @@ public partial class MainWindow : Window
             }
         }
 
+        
         dbContext.SaveChanges();
+        RefreshMedicationGrid();
     }
 
     private void AddMedicationButtonClick(object sender, RoutedEventArgs e)
@@ -209,8 +219,9 @@ public partial class MainWindow : Window
                 }
             }
         }
-
+        
         dbContext.SaveChanges();
+        RefreshCounterpartyGrid();
     }
 
     private void AddCounterpartyButtonClick(object sender, RoutedEventArgs e)
@@ -258,7 +269,42 @@ public partial class MainWindow : Window
                 }
             }
         }
-
+        
         dbContext.SaveChanges();
+        RefreshInvoiceGrid();
+    }
+
+    private void DeleteWaybillButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (WaybillGrid.SelectedItems.Count > 0)
+        {
+            for (int i = 0; i < WaybillGrid.SelectedItems.Count; i++)
+            {
+                if (WaybillGrid.SelectedItems[i] is Waybill waybill)
+                {
+                    dbContext.Waybills.Remove(waybill);
+                }
+            }
+        }
+        
+        dbContext.SaveChanges();
+        RefreshWaybillGrid();
+    }
+
+    private void EditWaybillButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (WaybillGrid.SelectedItems.Count > 0)
+        {
+            var editWaybillWindow = new EditWaybillWindow(dbContext, user, (Waybill)WaybillGrid.SelectedItems[0]!);
+            editWaybillWindow.ShowDialog();
+            RefreshWaybillGrid();
+        }
+    }
+
+    private void AddWaybillButtonClick(object sender, RoutedEventArgs e)
+    {
+        var addWaybillWindow = new AddWaybillWindow(dbContext, user);
+        addWaybillWindow.ShowDialog();
+        RefreshWaybillGrid();
     }
 }

@@ -179,6 +179,27 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            
+            <TabItem Header="Накладные">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.90*"></RowDefinition>
+                        <RowDefinition Height="0.10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" x:Name="WaybillGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Number}" Header="Номер" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding ReceiptDate}" Header="Дата поступления" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Provider.Title}" Header="Поставщик" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Добавить" Click="AddWaybillButtonClick" Width="100" Height="25" />
+                        <Button Content="Редактировать" Click="EditWaybillButtonClick" Width="100" Height="25" />
+                        <Button Content="Удалить" Click="DeleteWaybillButtonClick" Width="100" Height="25" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

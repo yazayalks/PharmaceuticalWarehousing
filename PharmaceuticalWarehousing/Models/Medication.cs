@@ -18,6 +18,5 @@ namespace PharmaceuticalWarehousing.Models
 
         public Medicine Medicine { get; set; }
         public List<Package> Packaging { get; set; }
-        public Waybill Waybill { get; set; }
     }
 }
