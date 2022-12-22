@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Aspose.Cells;
+using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
 
 using PharmaceuticalWarehousing.Models;
@@ -12,6 +15,7 @@ using PharmaceuticalWarehousing.Windows.Counterpartys;
 using PharmaceuticalWarehousing.Windows.Invoices;
 using PharmaceuticalWarehousing.Windows.Medications;
 using PharmaceuticalWarehousing.Windows.Waybills;
+
 
 namespace PharmaceuticalWarehousing.Windows;
 
@@ -30,6 +34,8 @@ public partial class MainWindow : Window
     public List<Counterparty> Counterparties { get; set; }
 
     public List<Manufacturer> Manufacturers { get; set; }
+    
+    public List<Export> myExportList{ get; set; }
 
     public MainWindow(PharmaceuticalWarehousingDbContext dbContext, User user)
     {
@@ -439,5 +445,37 @@ public partial class MainWindow : Window
             MessageBox.Show("Старый пароль неправильный");
         }
 
+    }
+
+    private void ExportMedicationButtonClick(object sender, RoutedEventArgs e)
+    {
+        var l = new List<Medication>((IEnumerable<Medication>)MedicationGrid.ItemsSource);
+
+        var myExportList = new List<Export>();
+
+        foreach (var item in l)
+        {
+            myExportList.Add(new Export()
+            {
+                Id = item.Medicine.Id.ToString(),
+                Name = item.Medicine.Name,
+                Category = item.Medicine.Category.Name,
+
+            });
+        }
+
+        using (XLWorkbook wb = new XLWorkbook())
+        {
+            wb.Worksheets.Add(Common.ToDataTable(myExportList));
+               
+            Stream streamF = File.Create("export.xlsx");
+            wb.SaveAs(streamF);
+            streamF.Close();
+        }
+
+
+        Workbook workbook = new Workbook("export.xlsx");
+        workbook.Save("export.docx", SaveFormat.Docx);
+        MessageBox.Show("Успешно");
     }
 }

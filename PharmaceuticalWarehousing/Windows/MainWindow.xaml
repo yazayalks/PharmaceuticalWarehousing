@@ -37,7 +37,7 @@
                                  VerticalAlignment="Center" Width="120" />
 
                         <Button Content="Искать" Click="SearchMedicationButtonClick" Width="100" Height="25" />
-                        <Button Content="Экспорт" Width="100" Height="25" />
+                        <Button Content="Экспорт" Click="ExportMedicationButtonClick" Width="100" Height="25" />
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -36,6 +36,39 @@ public partial class EditMedicationWindow : Window
 
     private void SaveButton(object sender, RoutedEventArgs e)
     {
+        if (Medication.RegistrationNumber.ToString() == null || Medication.RegistrationNumber.ToString() == "0")
+        {
+            MessageBox.Show("Введите регистрационный номер");
+            return;
+        }
+
+        
+        if ((Medication.DateOfManufacture) == null)
+        {
+            MessageBox.Show("Введите дату производства");
+            return;
+        }
+        if ((Medication.BestBeforeDate) == null)
+        {
+            MessageBox.Show("Введите срок годности");
+            return;
+        }
+        if ((Medication.Medicine) == null)
+        {
+            MessageBox.Show("Укажите лекарство ");
+            return;
+        }
+        if ((Medication.Manufacturer) == null)
+        {
+            MessageBox.Show("Укажите проиводителя ");
+            return;
+        }
+        if ((PackageTypeColumn.ItemsSource ) == null)
+        {
+            MessageBox.Show("Укажите упаковку");
+            return;
+        }
+        
         try
         {
             var all = Medication.Packaging.Select(x => x.PackageType);

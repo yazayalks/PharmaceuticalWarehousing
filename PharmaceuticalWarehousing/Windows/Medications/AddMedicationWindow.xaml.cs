@@ -29,17 +29,12 @@ public partial class AddMedicationWindow : Window
 
     private void SaveButton(object sender, RoutedEventArgs e)
     {
-        var regexRegistrationNumber = new Regex("^[0-9]+$");
-        // if (string.IsNullOrWhiteSpace(Medication.RegistrationNumber))
-        // {
-        //     MessageBox.Show("Введите регистрационный номер");
-        //     return;
-        // }
-        // if (!regexRegistrationNumber.IsMatch(Medication.RegistrationNumber))
-        // { 
-        //     MessageBox.Show("Регистрационный номер должен содержать только цифры");
-        //     return;
-        // }
+        if (Medication.RegistrationNumber.ToString() == null || Medication.RegistrationNumber.ToString() == "0")
+        {
+            MessageBox.Show("Введите регистрационный номер");
+            return;
+        }
+
         
         if ((Medication.DateOfManufacture) == null)
         {

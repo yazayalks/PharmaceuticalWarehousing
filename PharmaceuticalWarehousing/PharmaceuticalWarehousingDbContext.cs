@@ -30,7 +30,7 @@ namespace PharmaceuticalWarehousing
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseInMemoryDatabase("db");
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=PharmaceuticalWarehousing;Username=postgres;Password=6969");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=PharmaceuticalWarehousing2;Username=postgres;Password=6969");
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }

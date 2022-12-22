@@ -17,4 +17,5 @@ namespace PharmaceuticalWarehousing.Models
         public List<Medication> Medications { get; set; }
       
     }
+    
 }
