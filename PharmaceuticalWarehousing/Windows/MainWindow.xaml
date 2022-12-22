@@ -1,0 +1,184 @@
+﻿<Window x:Class="PharmaceuticalWarehousing.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:PharmaceuticalWarehousing.Windows"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl Margin="10">
+            <TabItem Header="Препараты">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.90*"></RowDefinition>
+                        <RowDefinition Height="0.10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" IsReadOnly="True" x:Name="MedicationGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Medicine.Name}" Header="Лекарство" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding DateOfManufacture}" Header="Дата производства"
+                                                Width="auto" />
+                            <DataGridTextColumn Binding="{Binding BestBeforeDate}" Header="Срок годности" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding RegistrationNumber}" Header="Регистрационный номер"
+                                                Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Manufacturer.Name}" Header="Производитель"
+                                                Width="auto" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Добавить" Click="AddMedicationButtonClick" Width="100" Height="25" />
+                        <Button Content="Редактировать" Click="EditMedicationButtonClick" Width="100" Height="25" />
+                        <Button Content="Удалить" Click="DeleteMedicationButtonClick" Width="100" Height="25" />
+                        <Label Content="Поиск" VerticalAlignment="Center" Width="50" />
+                        <TextBox x:Name="searchTextBox" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                 VerticalAlignment="Center" Width="120" />
+
+                        <Button Content="Искать" Click="SearchMedicationButtonClick" Width="100" Height="25" />
+                        <Button Content="Экспорт" Width="100" Height="25" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Категории">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="CategoryGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Имя" Width="auto" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Лекарства">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="MedicineGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="auto" />
+                            <DataGridComboBoxColumn x:Name="CategoryColumn" 
+                                                    Header="Категория"
+                                                    SelectedItemBinding="{Binding Category}" 
+                                                    DisplayMemberPath="Name"
+                                                    SelectedValuePath="Name" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Типы упаковок">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="PackageTypeGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Type}" Header="Тип" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Банки">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="BankGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Title}" Header="Название" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Продавцы">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="SalesmanGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Patronymic}" Header="Отчество" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Расчётные счита">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="PaymentAccountGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding AccountNumber}" Header="Номер счёта" Width="auto" />
+                            <DataGridComboBoxColumn x:Name="BankColumn" 
+                                                    Header="Банк"
+                                                    SelectedItemBinding="{Binding Bank}" 
+                                                    DisplayMemberPath="Title"
+                                                    SelectedValuePath="Title" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Производители">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="ManufacturerGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Имя" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="120" Height="20" Content="Сохранить" Click="SaveButtonClick"></Button>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Контрагенты">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.90*"></RowDefinition>
+                        <RowDefinition Height="0.10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" x:Name="CounterpartyGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Title}" Header="Название" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Street}" Header="Улица" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding House}" Header="Дом" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Flat}" Header="Квартира" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding ITN}" Header="ИНН" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding PaymentAccount.Bank.Title}" Header="Банк" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Добавить" Click="AddCounterpartyButtonClick" Width="100" Height="25" />
+                        <Button Content="Редактировать" Click="EditCounterpartyButtonClick" Width="100" Height="25" />
+                        <Button Content="Удалить" Click="DeleteCounterpartyButtonClick" Width="100" Height="25" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Счета">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.90*"></RowDefinition>
+                        <RowDefinition Height="0.10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" x:Name="InvoiceGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding DateOfDischarge}" Header="Дата выписки" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding AmountPayable}" Header="Сумма к уплате" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Salesman.FirstName}" Header="Ф. Продавца" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Salesman.LastName}" Header="И. Продавца" Width="auto" />
+                            <DataGridTextColumn Binding="{Binding Buyer.Title}" Header="Покупатель" Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Добавить" Click="AddInvoiceButtonClick" Width="100" Height="25" />
+                        <Button Content="Редактировать" Click="EditInvoiceButtonClick" Width="100" Height="25" />
+                        <Button Content="Удалить" Click="DeleteInvoiceButtonClick" Width="100" Height="25" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
