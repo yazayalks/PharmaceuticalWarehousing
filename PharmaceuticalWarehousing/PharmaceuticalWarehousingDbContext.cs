@@ -20,7 +20,6 @@ namespace PharmaceuticalWarehousing
         public DbSet<PackageType> PackageTypes { get; set; }
         public DbSet<Waybill> Waybills { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Statement> Statements { get; set; }
         public DbSet<Salesman> Salesmans { get; set; }
         public DbSet<Counterparty> Counterparties { get; set; }
         public DbSet<PaymentAccount> PaymentAccounts { get; set; }

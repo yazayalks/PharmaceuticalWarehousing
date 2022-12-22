@@ -14,10 +14,10 @@ namespace PharmaceuticalWarehousing.Models
         public DateTime DateOfManufacture { get; set; }
         public DateTime BestBeforeDate { get; set; }
         public int RegistrationNumber { get; set; }
-        public Manufacturer? Manufacturer { get; set; }
+        public Manufacturer Manufacturer { get; set; }
 
-        public Medicine? Medicine { get; set; }
+        public Medicine Medicine { get; set; }
         public List<Package> Packaging { get; set; }
-        public Statement? Statement { get; set; }
+        public Waybill Waybill { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace PharmaceuticalWarehousing.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Type { get; set; }
-        public List<Package?> packaging { get; set; }
+        public List<Package> packaging { get; set; }
     }
 }

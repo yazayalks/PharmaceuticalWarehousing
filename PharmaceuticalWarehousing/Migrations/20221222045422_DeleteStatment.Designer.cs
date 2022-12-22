@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PharmaceuticalWarehousing;
@@ -11,9 +12,11 @@ using PharmaceuticalWarehousing;
 namespace PharmaceuticalWarehousing.Migrations
 {
     [DbContext(typeof(PharmaceuticalWarehousingDbContext))]
-    partial class PharmaceuticalWarehousingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222045422_DeleteStatment")]
+    partial class DeleteStatment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,16 +196,16 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Property<int?>("InvoiceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ManufacturerId")
+                    b.Property<int?>("ManufacturerId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MedicineId")
+                    b.Property<int?>("MedicineId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RegistrationNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WaybillId")
+                    b.Property<int?>("WaybillId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -226,7 +229,7 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -342,7 +345,7 @@ namespace PharmaceuticalWarehousing.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserType")
+                    b.Property<int?>("UserType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -361,7 +364,7 @@ namespace PharmaceuticalWarehousing.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProviderId")
+                    b.Property<int?>("ProviderId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("ReceiptDate")
@@ -423,21 +426,15 @@ namespace PharmaceuticalWarehousing.Migrations
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Manufacturer", "Manufacturer")
                         .WithMany("Medications")
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManufacturerId");
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Medicine", "Medicine")
                         .WithMany("Medications")
-                        .HasForeignKey("MedicineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MedicineId");
 
                     b.HasOne("PharmaceuticalWarehousing.Models.Waybill", "Waybill")
                         .WithMany("Medications")
-                        .HasForeignKey("WaybillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WaybillId");
 
                     b.Navigation("Manufacturer");
 
@@ -450,9 +447,7 @@ namespace PharmaceuticalWarehousing.Migrations
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Category", "Category")
                         .WithMany("Categories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -491,9 +486,7 @@ namespace PharmaceuticalWarehousing.Migrations
                 {
                     b.HasOne("PharmaceuticalWarehousing.Models.Counterparty", "Provider")
                         .WithMany("Waybills")
-                        .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProviderId");
 
                     b.Navigation("Provider");
                 });

@@ -12,9 +12,9 @@ namespace PharmaceuticalWarehousing.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public Category? Category { get; set; }
+        public Category Category { get; set; }
 
-        public List<Medication?> Medications { get; set; }
+        public List<Medication> Medications { get; set; }
       
     }
 }

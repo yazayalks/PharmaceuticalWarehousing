@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     public List<Counterparty> Counterparties { get; set; }
 
     public List<Manufacturer> Manufacturers { get; set; }
+
     public MainWindow(PharmaceuticalWarehousingDbContext dbContext, User user)
     {
         InitializeComponent();
@@ -45,14 +46,14 @@ public partial class MainWindow : Window
 
         this.Closing += MainWindow_Closing;
     }
-    
+
     private void RefreshInvoiceGrid()
     {
-        InvoiceGrid.ItemsSource = dbContext.Invoices.ToList();
+        InvoiceGrid.ItemsSource = dbContext.Invoices.Include(x => x.Medications).ToList();
         CounterpartyGrid.Items.Refresh();
     }
 
-    
+
     private void RefreshCounterpartyGrid()
     {
         Counterparties = dbContext.Counterparties.ToList();
@@ -77,35 +78,37 @@ public partial class MainWindow : Window
             .ToList();
 
         MedicineGrid.Items.Refresh();
-    }   
-    
+    }
+
     private void RefreshPackageTypeGrid()
     {
         PackageTypes = dbContext.PackageTypes.ToList();
         PackageTypeGrid.ItemsSource = PackageTypes;
 
         PackageTypeGrid.Items.Refresh();
-    } 
+    }
+
     private void RefreshManufacturerGrid()
     {
         Manufacturers = dbContext.Manufacturers.ToList();
         ManufacturerGrid.ItemsSource = Manufacturers;
         ManufacturerGrid.Items.Refresh();
     }
-    
+
     private void RefreshBankGrid()
     {
         Banks = dbContext.Banks.ToList();
         BankGrid.ItemsSource = Banks;
         BankGrid.Items.Refresh();
     }
-    
+
     private void RefreshSalesmanGrid()
     {
         Salesmans = dbContext.Salesmans.ToList();
         SalesmanGrid.ItemsSource = Salesmans;
         SalesmanGrid.Items.Refresh();
-    } 
+    }
+
     private void RefreshPaymentAccountGrid()
     {
         PaymentAccounts = dbContext.PaymentAccounts.ToList();
@@ -122,7 +125,7 @@ public partial class MainWindow : Window
             .AsSplitQuery()
             .Include(x => x.Manufacturer)
             .Include(x => x.Medicine)
-            .Include(x=>x.Packaging)
+            .Include(x => x.Packaging)
             .Where(x => x.Medicine.Name.ToLower().Contains(search)
                         || x.Manufacturer.Name.ToLower().Contains(search)
                         || x.RegistrationNumber.ToString().Contains(search))
@@ -187,7 +190,8 @@ public partial class MainWindow : Window
     {
         if (MedicationGrid.SelectedItems.Count == 1)
         {
-            var editMedicationWindow = new EditMedicationWindow(dbContext, user, (Medication)MedicationGrid.SelectedItems[0]!);
+            var editMedicationWindow =
+                new EditMedicationWindow(dbContext, user, (Medication)MedicationGrid.SelectedItems[0]!);
             editMedicationWindow.ShowDialog();
             RefreshMedicationGrid();
         }
@@ -218,7 +222,9 @@ public partial class MainWindow : Window
 
     private void EditCounterpartyButtonClick(object sender, RoutedEventArgs e)
     {
-        var editCounterpartyWindow = new EditCounterpartyWindow(dbContext, user, (Counterparty)CounterpartyGrid.SelectedItems[0]!);
+        if (CounterpartyGrid.SelectedItems.Count == 0) return;
+        var editCounterpartyWindow =
+            new EditCounterpartyWindow(dbContext, user, (Counterparty)CounterpartyGrid.SelectedItems[0]!);
         editCounterpartyWindow.ShowDialog();
         RefreshCounterpartyGrid();
     }
@@ -232,9 +238,12 @@ public partial class MainWindow : Window
 
     private void EditInvoiceButtonClick(object sender, RoutedEventArgs e)
     {
-        var editInvoiceWindow = new EditInvoiceWindow(dbContext, user, (Invoice)InvoiceGrid.SelectedItems[0]!);
-        editInvoiceWindow.ShowDialog();
-        RefreshInvoiceGrid();
+        if (InvoiceGrid.SelectedItems.Count > 0)
+        {
+            var editInvoiceWindow = new EditInvoiceWindow(dbContext, user, (Invoice)InvoiceGrid.SelectedItems[0]!);
+            editInvoiceWindow.ShowDialog();
+            RefreshInvoiceGrid();
+        }
     }
 
     private void DeleteInvoiceButtonClick(object sender, RoutedEventArgs e)

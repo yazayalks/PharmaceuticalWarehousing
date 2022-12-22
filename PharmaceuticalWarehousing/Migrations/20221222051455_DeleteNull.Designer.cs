@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PharmaceuticalWarehousing;
@@ -11,9 +12,11 @@ using PharmaceuticalWarehousing;
 namespace PharmaceuticalWarehousing.Migrations
 {
     [DbContext(typeof(PharmaceuticalWarehousingDbContext))]
-    partial class PharmaceuticalWarehousingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222051455_DeleteNull")]
+    partial class DeleteNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

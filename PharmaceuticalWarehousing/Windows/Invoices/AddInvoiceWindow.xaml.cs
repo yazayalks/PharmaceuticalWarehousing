@@ -39,12 +39,17 @@ public partial class AddInvoiceWindow : Window
         }
         catch (DbUpdateException exception)
         {
+            dbContext.Invoices.Remove(Invoice);
             MessageBox.Show(exception.Message);
         }
     }
 
     private void AddMedicationButton(object sender, RoutedEventArgs e)
     {
+        if (SelectMedication == null)
+        {
+            return;
+        }
         if (Invoice.Medications.Any(x => x.Id == SelectMedication.Id))
         {
             MessageBox.Show("Данный препарат уже добавлен");

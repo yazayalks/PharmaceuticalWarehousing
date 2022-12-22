@@ -14,8 +14,8 @@ namespace PharmaceuticalWarehousing.Models
         public int Id { get; set; }
         public int Number { get; set; }
         public DateTime ReceiptDate { get; set; }
-        public List<Statement?> Statements { get; set; }
+        public List<Medication> Medications { get; set; }
 
-        public Counterparty? Provider { get; set; }
+        public Counterparty Provider { get; set; }
     }
 }
