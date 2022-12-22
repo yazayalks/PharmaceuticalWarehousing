@@ -295,7 +295,7 @@ public partial class MainWindow : Window
     {
         if (WaybillGrid.SelectedItems.Count > 0)
         {
-            var editWaybillWindow = new EditWaybillWindow(dbContext, user, (Waybill)WaybillGrid.SelectedItems[0]!);
+            var editWaybillWindow = new EditWaybillWindow(user, ((Waybill)WaybillGrid.SelectedItems[0]!).Id);
             editWaybillWindow.ShowDialog();
             RefreshWaybillGrid();
         }

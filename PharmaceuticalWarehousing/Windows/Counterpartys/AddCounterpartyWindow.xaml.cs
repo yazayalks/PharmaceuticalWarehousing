@@ -31,6 +31,7 @@ public partial class AddCounterpartyWindow : Window
         }
         catch (DbUpdateException exception)
         {
+            dbContext.Counterparties.Remove(Counterparty);
             MessageBox.Show(exception.Message);
         }
     }

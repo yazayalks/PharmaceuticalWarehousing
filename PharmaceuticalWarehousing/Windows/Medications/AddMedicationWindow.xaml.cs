@@ -36,6 +36,7 @@ public partial class AddMedicationWindow : Window
         }
         catch (DbUpdateException exception)
         {
+            dbContext.Medications.Remove(Medication);
             MessageBox.Show(exception.Message);
         }
     }

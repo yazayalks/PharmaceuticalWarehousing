@@ -8,22 +8,25 @@ namespace PharmaceuticalWarehousing.Windows.Waybills;
 
 public partial class EditWaybillWindow : Window
 {
-   private readonly PharmaceuticalWarehousingDbContext dbContext;
+    private readonly PharmaceuticalWarehousingDbContext dbContext;
     private readonly User user;
     public Waybill Waybills { get; set; }
     public List<Counterparty> Counterpartys { get; set; }
     public List<Medication> Medications { get; set; }
     public Medication SelectMedication { get; set; }
-    public EditWaybillWindow(PharmaceuticalWarehousingDbContext dbContext, User user, Waybill waybill)
+    public EditWaybillWindow(User user, int waybillId)
     {
         InitializeComponent();
         DataContext = this;
-        this.dbContext = dbContext;
+        // this.dbContext = dbContext;
+        dbContext = new();
         this.user = user;
-        Counterpartys = dbContext.Counterparties.ToList();
+        Counterpartys =  this.dbContext.Counterparties.ToList();
         Medications = this.dbContext.Medications.ToList();
 
-        Waybills = waybill;
+        Waybills = dbContext.Waybills
+            .Include(x=>x.Medications)
+            .Single(x=>x.Id==waybillId);
         MedicationGrid.ItemsSource = Waybills.Medications;
     }
 
