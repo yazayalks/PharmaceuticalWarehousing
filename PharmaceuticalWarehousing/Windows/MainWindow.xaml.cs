@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -19,6 +20,9 @@ public partial class MainWindow : Window
     public List<Category> Categoryes { get; set; }
     public List<PackageType> PackageTypes { get; set; }
     public List<Bank> Banks { get; set; }
+    public List<User> Users { get; set; }
+    public List<UserType> UserTypes { get; set; }
+    public List<AccessRight> AccessRights { get; set; }
     public List<Salesman> Salesmans { get; set; }
     public List<PaymentAccount> PaymentAccounts { get; set; }
     public List<Counterparty> Counterparties { get; set; }
@@ -33,6 +37,8 @@ public partial class MainWindow : Window
         this.user = user;
         DataContext = this;
 
+
+        RefreshUserGrid();
         RefreshCategoryGrid();
         RefreshMedicationGrid();
         RefreshMedicineGrid();
@@ -54,7 +60,17 @@ public partial class MainWindow : Window
         WaybillGrid.ItemsSource = dbContext.Waybills.Include(x => x.Medications).ToList();
         WaybillGrid.Items.Refresh();
     }
-    
+
+    private void RefreshUserGrid()
+    {
+        // var a =        Enum.GetValues(typeof(UserType)).Cast<UserType>().ToList().Select(x=>x.ToString());
+        var userTypes = Enum.GetValues(typeof(UserType)).Cast<UserType>().ToList();
+
+        UserTypesColumn.ItemsSource = userTypes;
+        UserGrid.ItemsSource = dbContext.Users.Include(x => x.AccessRights).ToList();
+        UserGrid.Items.Refresh();
+    }
+
     private void RefreshInvoiceGrid()
     {
         InvoiceGrid.ItemsSource = dbContext.Invoices.Include(x => x.Medications).ToList();
@@ -184,7 +200,7 @@ public partial class MainWindow : Window
             }
         }
 
-        
+
         dbContext.SaveChanges();
         RefreshMedicationGrid();
     }
@@ -219,7 +235,7 @@ public partial class MainWindow : Window
                 }
             }
         }
-        
+
         dbContext.SaveChanges();
         RefreshCounterpartyGrid();
     }
@@ -269,7 +285,7 @@ public partial class MainWindow : Window
                 }
             }
         }
-        
+
         dbContext.SaveChanges();
         RefreshInvoiceGrid();
     }
@@ -286,7 +302,7 @@ public partial class MainWindow : Window
                 }
             }
         }
-        
+
         dbContext.SaveChanges();
         RefreshWaybillGrid();
     }
@@ -306,5 +322,10 @@ public partial class MainWindow : Window
         var addWaybillWindow = new AddWaybillWindow(dbContext, user);
         addWaybillWindow.ShowDialog();
         RefreshWaybillGrid();
+    }
+
+    private void EditUserButton_Click(object sender, RoutedEventArgs e)
+    {
+        throw new System.NotImplementedException();
     }
 }

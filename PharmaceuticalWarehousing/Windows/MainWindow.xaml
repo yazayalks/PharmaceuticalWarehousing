@@ -200,6 +200,29 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+        
+            <TabItem Header="Панель администратора">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.90*"></RowDefinition>
+                    <RowDefinition Height="0.10*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" x:Name="UserGrid" ItemsSource="{Binding Users}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Binding="{Binding Id}" Header="Индефиктор" Width="100"/>
+                        <DataGridTextColumn Binding="{Binding Email}" Header="Емаил" Width="100"/>
+                        <DataGridTextColumn IsReadOnly="True" Binding="{Binding Password}" Header="Хэш пароля" Width="100"/>
+                        <DataGridComboBoxColumn x:Name="UserTypesColumn"  Header="Тип доступа"
+                                                Width="120"  
+                                                SelectedItemBinding="{Binding UserType}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button x:Name="saveUserButton" Content="Сохранить" Click="SaveButtonClick" Width="106" />
+                    <Button x:Name="editUserButton" Content="Редактировать" Click="EditUserButton_Click" Width="106" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
         </TabControl>
     </Grid>
 </Window>
